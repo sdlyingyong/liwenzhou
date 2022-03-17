@@ -1,0 +1,18 @@
+2022-03-10T14:39:01.580+0800	DEBUG	zap/main.go:88	Trying to hit GET request for http://www.baidu.com
+main.sugarSimpleHttpGet
+	D:/tianyou/dev/liwenzhou/zap/main.go:88
+main.showSugarLogFile
+	D:/tianyou/dev/liwenzhou/zap/main.go:77
+main.main
+	D:/tianyou/dev/liwenzhou/zap/main.go:20
+runtime.main
+	D:/tianyou/go_sdk/go1.16/src/runtime/proc.go:225
+2022-03-10T14:39:01.619+0800	INFO	zap/main.go:93	Success! statuscode is %!s(int=200) for URL http://www.baidu.com
+main.sugarSimpleHttpGet
+	D:/tianyou/dev/liwenzhou/zap/main.go:93
+main.showSugarLogFile
+	D:/tianyou/dev/liwenzhou/zap/main.go:77
+main.main
+	D:/tianyou/dev/liwenzhou/zap/main.go:20
+runtime.main
+	D:/tianyou/go_sdk/go1.16/src/runtime/proc.go:225
