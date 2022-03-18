@@ -56,7 +56,7 @@ func LoginHandle(ctx *gin.Context) {
 		}
 	}
 	//逻辑处理器
-	token, err := logic.Login(p)
+	aToken, rToken, err := logic.Login(p)
 	if err != nil {
 		zap.L().Error("logic.Login err", zap.String("username", p.Username), zap.Error(err))
 		if errors.Is(err, mysql.ErrorUserNotExist) {
@@ -67,6 +67,36 @@ func LoginHandle(ctx *gin.Context) {
 		return
 	}
 	//响应处理器
-	zap.L().Info("logic.Login token", zap.String("token", token))
-	ResponseSuccess(ctx, token)
+	zap.L().Info("logic.Login token", zap.String("token", aToken), zap.String("refresh token", rToken))
+	ResponseSuccess(ctx, gin.H{
+		"access_token":  aToken,
+		"refresh_token": rToken,
+	})
+}
+
+func RefreshHandle(ctx *gin.Context) {
+	//参数检查器
+	p := new(models.ParamRefresh) //创建对象,返回引用
+	if err := ctx.ShouldBindJSON(p); err != nil {
+		zap.L().Error("Refresh token with invalid param", zap.Error(err))
+		errors, ok := err.(validator.ValidationErrors)
+		if !ok {
+			ResponseErrorWithMsg(ctx, CodeServerBusy, err)
+			return
+		} else {
+			ResponseErrorWithMsg(ctx, CodeServerBusy, RemoveTopStruct(errors.Translate(trans)))
+			return
+		}
+	}
+	//逻辑转发器
+	token, err := logic.RefreshToken(p)
+	if err != nil {
+		ResponseErrorWithMsg(ctx, CodeServerBusy, err.Error())
+		return
+	}
+	//响应处理器
+	zap.L().Info("logic.Refresh token", zap.String("refresh_token", token))
+	ResponseSuccess(ctx, gin.H{
+		"access_token": token,
+	})
 }

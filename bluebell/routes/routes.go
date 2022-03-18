@@ -2,13 +2,14 @@ package routes
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"lwz/bluebell/controllers"
 	"lwz/bluebell/logger"
 	"lwz/bluebell/middlewares"
 	sf "lwz/bluebell/pkg/snowflake"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 //业务路由注册器
@@ -22,13 +23,16 @@ func Setup(mode string) *gin.Engine {
 	r.GET("/", func(context *gin.Context) {
 		context.String(http.StatusOK, "hello gin")
 	})
-	r.GET("/ping", middlewares.JWTAuthMiddleware(), func(context *gin.Context) {
-		userID,err := controllers.GetCurrentUser(context)
+	r.POST("/ping", middlewares.JWTAuthMiddleware(), func(context *gin.Context) {
+		userID, err := controllers.GetCurrentUser(context)
 		if err != nil {
-			controllers.ResponseError(context,controllers.CodeNeedAuth)
+			controllers.ResponseError(context, controllers.CodeNeedAuth)
 			return
 		}
-		context.String(http.StatusOK,fmt.Sprintf("hello id:%d , pong",userID))
+		context.JSON(http.StatusOK, gin.H{
+			"msg":  "hello",
+			"data": gin.H{"user_id": userID},
+		})
 	})
 
 	r.GET("/gen_id", func(context *gin.Context) {
@@ -38,7 +42,7 @@ func Setup(mode string) *gin.Engine {
 
 	r.POST("/signup", controllers.SignUpHandle)
 	r.POST("/login", controllers.LoginHandle)
+	r.POST("/refresh", controllers.RefreshHandle)
 
 	return r
 }
-

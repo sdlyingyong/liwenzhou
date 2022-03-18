@@ -35,7 +35,7 @@ func SignUp(p *models.ParamSignUp) (err error) {
 	return
 }
 
-func Login(p *models.ParamLogin) (token string, err error) {
+func Login(p *models.ParamLogin) (accessToken, refreshToken string, err error) {
 	u := &models.User{
 		Username: p.Username,
 		Password: p.Password,
@@ -45,8 +45,23 @@ func Login(p *models.ParamLogin) (token string, err error) {
 	}
 	//生成jwt返回
 	//u.Username
-	token, err = jwt.GenToken(u.UserID, u.Username)
+	accessToken, err = jwt.GenToken(u.UserID, u.Username)
 	if err != nil {
+		return
+	}
+	refreshToken, err = jwt.GenRefreshToken(u.UserID, u.Username)
+	if err != nil {
+		return
+	}
+	return
+}
+func RefreshToken(p *models.ParamRefresh) (newAccessToken string, err error) {
+	//如果rToken过期,不正确 =>  重新登陆
+	if err = jwt.CheckRefreshToken(p.RefreshToken); err != nil {
+		return
+	}
+	//从旧的access-token 解析出claims数据
+	if newAccessToken, err = jwt.RefreshAccessToken(p.AccessToken); err != nil {
 		return
 	}
 	return
