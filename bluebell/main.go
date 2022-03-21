@@ -1,15 +1,16 @@
 package main
 
 import (
-	"github.com/spf13/viper"
-	"go.uber.org/zap"
 	"lwz/bluebell/controllers"
-	"lwz/bluebell/dao/msyql"
+	mysql "lwz/bluebell/dao/msyql"
 	"lwz/bluebell/dao/redis"
 	"lwz/bluebell/logger"
 	"lwz/bluebell/pkg/snowflake"
 	"lwz/bluebell/routes"
 	"lwz/bluebell/settings"
+
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -57,6 +58,6 @@ func main() {
 	r := routes.Setup(settings.Conf.Mode)
 
 	//7.服务器
-	r.Run(":8080")
+	r.Run(":8888")
 
 }
