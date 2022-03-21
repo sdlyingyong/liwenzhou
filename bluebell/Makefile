@@ -5,14 +5,14 @@ BINARY="bluebell"
 all: gotool build
 
 build:
-    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${BINARY}
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ${BINARY}
 
 run:
-    @go run ./main.go conf/config.yaml
+	@go run ./
 
 gotool:
-    go fmt ./
-    go vet ./
+	go fmt ./
+	go vet ./
 
 clean:
 	@if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
