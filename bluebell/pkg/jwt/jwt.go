@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/spf13/viper"
+
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -15,7 +17,6 @@ var (
 
 var (
 	mySecret                   = []byte("夏天夏天悄悄过去")
-	AccessTokenExpireDuration  = 1 * time.Hour
 	RefreshTokenExpireDuration = 24 * time.Hour
 )
 
@@ -31,7 +32,7 @@ func GenToken(userID int64, username string) (token string, err error) {
 		UserID:   userID,
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(AccessTokenExpireDuration).Unix(),
+			ExpiresAt: time.Now().Add(time.Duration(viper.GetInt("auth.jwt_expire")) * time.Hour).Unix(),
 			Issuer:    "bluebell",
 		},
 	}
@@ -72,7 +73,7 @@ func ParseExpireAccessToken(tokenString string) (*MyClaims, error) {
 
 func GenRefreshToken(userID int64, username string) (token string, err error) {
 	token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(RefreshTokenExpireDuration).Unix(), //过期时间
+		ExpiresAt: time.Now().Add(time.Duration(viper.GetInt("auth.refresh_expire")) * time.Hour).Unix(), //过期时间
 		Issuer:    "bluebell",
 	}).SignedString(mySecret)
 	return

@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
@@ -54,7 +55,7 @@ func Init() (err error) {
 	//viper.SetConfigFile("config.yaml") //指定读这个文件
 
 	//方法2:在目录下搜索指定名字配置文件
-	viper.AddConfigPath(".")      //查找路径(相对路径)
+	viper.AddConfigPath("./conf") //查找路径(相对路径)
 	viper.SetConfigName("config") //读取配置文件名
 	viper.SetConfigType("yaml")   //配置文件类型,用来远程etcd获取配置信息格式
 

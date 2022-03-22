@@ -1,8 +1,8 @@
 package main
 
 import (
-	"lwz/bluebell/controllers"
-	mysql "lwz/bluebell/dao/msyql"
+	"lwz/bluebell/controller"
+	mysql "lwz/bluebell/dao/mysql"
 	"lwz/bluebell/dao/redis"
 	"lwz/bluebell/logger"
 	"lwz/bluebell/pkg/snowflake"
@@ -49,7 +49,7 @@ func main() {
 	}
 
 	//6.翻译器
-	if err := controllers.InitTrans("zh"); err != nil {
+	if err := controller.InitTrans("zh"); err != nil {
 		zap.L().Error("Init trans failed, err :", zap.Error(err))
 		return
 	}

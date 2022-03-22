@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"lwz/bluebell/controllers"
+	"lwz/bluebell/controller"
 	"lwz/bluebell/logger"
 	"lwz/bluebell/middlewares"
 	"net/http"
@@ -26,9 +26,9 @@ func Setup(mode string) *gin.Engine {
 			context.String(http.StatusOK, "hello gin")
 		})
 		apiV1.POST("/ping", middlewares.JWTAuthMiddleware(), func(context *gin.Context) {
-			userID, err := controllers.GetCurrentUser(context)
+			userID, err := controller.GetCurrentUser(context)
 			if err != nil {
-				controllers.ResponseError(context, controllers.CodeNeedAuth)
+				controller.ResponseError(context, controller.CodeNeedAuth)
 				return
 			}
 			context.JSON(http.StatusOK, gin.H{
@@ -37,10 +37,27 @@ func Setup(mode string) *gin.Engine {
 			})
 		})
 		//user
-		apiV1.POST("/signup", controllers.SignUpHandle)
-		apiV1.POST("/login", controllers.LoginHandle)
-		apiV1.POST("/refresh", controllers.RefreshHandle)
+		apiV1.POST("/signup", controller.SignUpHandle)
+		apiV1.POST("/login", controller.LoginHandle)
+		apiV1.POST("/refresh", controller.RefreshHandle)
+
+		apiV1.Use(middlewares.JWTAuthMiddleware())
+		{
+			apiV1.GET("/community", controller.CommunityHandler)
+			apiV1.GET("/community/:id", controller.CommunityDetailHandler)
+
+			apiV1.POST("/post", controller.CreatePostHandler)
+			apiV1.GET("/post/:id", controller.GetPostDetailHandler)
+			apiV1.GET("/posts", controller.GetPostListHandler)
+		}
 	}
+
+	//404处理
+	r.NoRoute(func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{
+			"msg": "404",
+		})
+	})
 
 	return r
 }

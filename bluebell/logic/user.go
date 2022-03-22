@@ -1,7 +1,7 @@
 package logic
 
 import (
-	mysql "lwz/bluebell/dao/msyql"
+	mysql "lwz/bluebell/dao/mysql"
 	"lwz/bluebell/models"
 	"lwz/bluebell/pkg/jwt"
 	"lwz/bluebell/pkg/snowflake"
