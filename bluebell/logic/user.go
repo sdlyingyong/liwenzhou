@@ -35,24 +35,24 @@ func SignUp(p *models.ParamSignUp) (err error) {
 	return
 }
 
-func Login(p *models.ParamLogin) (accessToken, refreshToken string, err error) {
-	u := &models.User{
+func Login(p *models.ParamLogin) (user *models.User, err error) {
+	user = &models.User{
 		Username: p.Username,
 		Password: p.Password,
 	}
-	if err = mysql.Login(u); err != nil {
+	if err = mysql.Login(user); err != nil {
 		return
 	}
 	//生成jwt返回
-	//u.Username
-	accessToken, err = jwt.GenToken(u.UserID, u.Username)
+	token, err := jwt.GenToken(user.UserID, user.Username)
 	if err != nil {
 		return
 	}
-	refreshToken, err = jwt.GenRefreshToken(u.UserID, u.Username)
-	if err != nil {
-		return
-	}
+	user.Token = token
+	//refreshToken, err = jwt.GenRefreshToken(u.UserID, u.Username)
+	//if err != nil {
+	//	return
+	//}
 	return
 }
 func RefreshToken(p *models.ParamRefresh) (newAccessToken string, err error) {

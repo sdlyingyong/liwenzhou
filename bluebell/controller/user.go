@@ -11,6 +11,13 @@ import (
 	"go.uber.org/zap"
 )
 
+type LoginResponse struct {
+	//userID在json格式的时候转为string类型
+	UserID    int64  `json:"user_id,string"`
+	UserName  string `json:"user_name"`
+	UserToken string `json:"user_token"`
+}
+
 func SignUpHandle(ctx *gin.Context) {
 	//1.参数校验器
 	p := new(models.ParamSignUp) //创建对象,返回引用
@@ -56,7 +63,7 @@ func LoginHandle(ctx *gin.Context) {
 		}
 	}
 	//逻辑处理器
-	aToken, rToken, err := logic.Login(p)
+	user, err := logic.Login(p)
 	if err != nil {
 		zap.L().Error("logic.Login err", zap.String("username", p.Username), zap.Error(err))
 		if errors.Is(err, mysql.ErrorUserNotExist) {
@@ -67,10 +74,18 @@ func LoginHandle(ctx *gin.Context) {
 		return
 	}
 	//响应处理器
-	zap.L().Info("logic.Login token", zap.String("token", aToken), zap.String("refresh token", rToken))
-	ResponseSuccess(ctx, gin.H{
-		"access_token":  aToken,
-		"refresh_token": rToken,
+	//ResponseSuccess(ctx, gin.H{
+	//	//因为js解析int类型有上限,超过会转错误值,所以改成字符串类型传递
+	//	//"user_id":    strconv.FormatInt(user.UserID, 10),
+	//	//"user_id":    fmt.Sprintf("%d", user.UserID),
+	//	"user_id":    user.UserID,
+	//	"user_name":  user.Username,
+	//	"user_token": user.Token,
+	//})
+	ResponseSuccess(ctx, &LoginResponse{
+		UserID:    user.UserID,
+		UserName:  user.Username,
+		UserToken: user.Token,
 	})
 }
 
@@ -95,7 +110,6 @@ func RefreshHandle(ctx *gin.Context) {
 		return
 	}
 	//响应处理器
-	zap.L().Info("logic.Refresh token", zap.String("refresh_token", token))
 	ResponseSuccess(ctx, gin.H{
 		"access_token": token,
 	})

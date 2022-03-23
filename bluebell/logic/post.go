@@ -2,6 +2,7 @@ package logic
 
 import (
 	"lwz/bluebell/dao/mysql"
+	"lwz/bluebell/dao/redis"
 	"lwz/bluebell/models"
 	"lwz/bluebell/pkg/snowflake"
 
@@ -15,8 +16,18 @@ func CreatePost(post *models.Post) (err error) {
 		return
 	}
 	//数据库存储器
+	err = mysql.CreatePost(post)
+	if err != nil {
+		zap.L().Error("mysql.CreatePost(post) failed", zap.Error(err))
+		return
+	}
+	err = redis.CreatePost(post.ID)
+	if err != nil {
+		zap.L().Error("redis.CreatePost(post) failed", zap.Error(err))
+		return
+	}
 	//结果返回
-	return mysql.CreatePost(post)
+	return
 }
 
 func GetPostById(pid int64) (date *models.ApiPostDetail, err error) {
