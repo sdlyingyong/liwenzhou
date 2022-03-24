@@ -3,12 +3,13 @@ package main
 import (
 	"database/sql/driver"
 	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )
 
 var (
-	db = initDb()
+	client = initDb()
 )
 
 type User struct {
@@ -23,14 +24,7 @@ func main() {
 	updateRow()
 	showNamedExec()
 	showNamedQuery()
-	showTransaction()
 	showBatchInsert()
-	showRedisPipeline()
-
-}
-
-func showRedisPipeline() {
-
 }
 
 func (u User) Value() (driver.Value, error) {
@@ -42,7 +36,7 @@ func BatchInsert(users []User) error {
 		users)
 	fmt.Println("query ", query)
 	fmt.Println("args ", args)
-	_, err := db.Exec(query, args...)
+	_, err := client.Exec(query, args...)
 	return err
 }
 
@@ -52,11 +46,6 @@ func showBatchInsert() {
 	u3 := User{nil, 38, "小王子"}
 	users := []User{u1, u2, u3}
 	BatchInsert(users)
-
-}
-
-func showTransaction() {
-
 }
 
 func showNamedQuery() {
@@ -65,7 +54,7 @@ func showNamedQuery() {
 	queryData := map[string]interface{}{
 		"name": "七米",
 	}
-	rows, err := db.NamedQuery(sqlStr, queryData)
+	rows, err := client.NamedQuery(sqlStr, queryData)
 	if err != nil {
 		fmt.Println("NamedQuery fail, err :", err)
 		return
@@ -73,7 +62,7 @@ func showNamedQuery() {
 	defer rows.Close()
 	//用结构体查询条件
 	u := User{Name: "七米"}
-	rows2, err := db.NamedQuery(sqlStr, u)
+	rows2, err := client.NamedQuery(sqlStr, u)
 	if err != nil {
 		fmt.Println("NamedQuery fail, err :", err)
 		return
@@ -98,7 +87,7 @@ func showNamedExec() {
 		"name": "七米",
 		"age":  32,
 	}
-	ret, err := db.NamedExec(insertSrt, insertData)
+	ret, err := client.NamedExec(insertSrt, insertData)
 	if err != nil {
 		fmt.Println("insert fail, err :", err)
 		return
@@ -115,7 +104,7 @@ func updateRow() {
 	sqlStr := "update users set age = ? where id = ?"
 	//delStr := "delete from user where id = ? "
 	//insertStr := "insert into user (name,age) values(?)"
-	ret, err := db.Exec(sqlStr, 23, 2)
+	ret, err := client.Exec(sqlStr, 23, 2)
 	if err != nil {
 		fmt.Println("update fail,err :", err)
 		return
@@ -133,7 +122,7 @@ func queryRowDemo() {
 	var u1 User
 	//1.需要首字母大写 2.需要结构体db:"字段"
 	//传指针
-	err := db.Get(&u1, sqlStr, 1)
+	err := client.Get(&u1, sqlStr, 1)
 	if err != nil {
 		fmt.Println("query fail,err :", err)
 		return
@@ -144,7 +133,7 @@ func queryRowDemo() {
 func queryMultiRow() {
 	sqlStr := "select id ,name, age from users where id > ?"
 	var ulist []User
-	err := db.Select(&ulist, sqlStr, 0)
+	err := client.Select(&ulist, sqlStr, 0)
 	if err != nil {
 		fmt.Println("query fail,err :", err)
 		return
