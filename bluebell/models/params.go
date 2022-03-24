@@ -1,5 +1,11 @@
 package models
 
+const (
+	OrderTime  = "time"
+	OrderScore = "score"
+)
+
+//请求相关参数模型
 type ParamSignUp struct {
 	Username   string `json:"username" binding:"required"` //key : value,value要冒号包裹
 	Password   string `json:"password" binding:"required"`
@@ -20,4 +26,11 @@ type ParamRefresh struct {
 type ParamVoteDate struct {
 	PostID    string `json:"post_id" binding:"required"`                //帖子id
 	Direction string `json:"direction" binding:"required,oneof=1 0 -1"` //投票方向 1=赞成票 -1=反对票 0=取消投票
+}
+
+//获取帖子列表query string参数
+type ParamPostList struct {
+	Page  int64  `form:"page"`
+	Size  int64  `form:"size"`
+	Order string `form:"order"`
 }

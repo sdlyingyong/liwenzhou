@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"lwz/bluebell/models"
 	"time"
 
 	"go.uber.org/zap"
@@ -26,4 +27,20 @@ func CreatePost(pId int64) (err error) {
 		Member: pId,
 	}).Result()
 	return
+}
+
+func GetPostList2(p *models.ParamPostList) (postIDs []string, err error) {
+	//排序
+	key := getRedisKey(KeyPostTimeZSet)
+	//1.根据用户排序参数决定post id数据来源
+	if p.Order == models.OrderScore {
+		key = getRedisKey(KeyPostScoreZSet)
+	} else {
+		key = getRedisKey(KeyPostTimeZSet)
+	}
+	zap.L().Debug("GetPostList2", zap.Any("key", key))
+	//2.确定查询的起止位置
+	start := (p.Page - 1) * p.Size
+	end := start + p.Size - 1
+	return client.ZRevRange(key, start, end).Result()
 }
