@@ -38,6 +38,7 @@ const (
 
 var (
 	ErrVoteTimeExpire = errors.New("投票时间已过")
+	ErrVoteRepeated   = errors.New("不允许重复投票")
 )
 
 //投票功能
@@ -57,6 +58,10 @@ func VoteForPost(userID, postID string, value float64) (err error) {
 	//2.更新帖子的分数
 	//查询用户目前的投票记录
 	ov := client.ZScore(getRedisKey(KeyPostVotedZSetPF+postID), userID).Val()
+	if ov == value {
+		err = ErrVoteRepeated
+		return
+	}
 	//操作产生的分数增加或减少到帖子的score上
 	pipeline := client.TxPipeline()
 	diff := math.Abs(ov - value)
@@ -79,5 +84,35 @@ func VoteForPost(userID, postID string, value float64) (err error) {
 		})
 	}
 	_, err = pipeline.Exec()
+	return
+}
+
+//查询每篇帖子的投票数
+func GetPostVoteData(ids []string) (date []int64, err error) {
+	////遍历获取投票数
+	//for _, id := range ids {
+	//	key := getRedisKey(KeyPostVotedZSetPF + id)
+	//	//查找key中分数是1的元素数量
+	//	v := client.ZCount(key, "1", "1").Val() //返回分数范围内的成员数量
+	//	date = append(date, v)
+	//}
+
+	//一次请求拿回所有数据
+	date = make([]int64, 0, len(ids))
+	pipeline := client.Pipeline()
+	for _, id := range ids {
+		key := getRedisKey(KeyPostVotedZSetPF + id)
+		pipeline.ZCount(key, "1", "1")
+	}
+	cmders, err := pipeline.Exec()
+	if err != nil {
+		zap.L().Error("pipeline.Exec() failed", zap.Error(err))
+		return
+	}
+	for _, cmder := range cmders {
+		v := cmder.(*redis.IntCmd).Val()
+		date = append(date, v)
+	}
+
 	return
 }

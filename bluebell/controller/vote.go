@@ -31,13 +31,13 @@ func PostVoteHandler(c *gin.Context) {
 		ResponseErrorWithMsg(c, CodeInvalidParam, errData)
 		return
 	}
-	//逻辑处理
 	userID, err := GetCurrentUser(c)
 	if err != nil {
 		zap.L().Error("GetCurrentUser(c) failed", zap.Error(err))
 		ResponseError(c, CodeServerBusy)
 		return
 	}
+	//逻辑处理
 	err = logic.VoteForPost(userID, p)
 	if err != nil {
 		zap.L().Error("logic.VoteForPost(userID, p) failed", zap.Error(err))

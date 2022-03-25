@@ -76,7 +76,11 @@ func GetPostListHandler(ctx *gin.Context) {
 //api/v1/post2?page=1&size=10&order=time/score
 func GetPostListHandler2(c *gin.Context) {
 	//参数处理
-	p := &models.ParamPostList{}
+	p := &models.ParamPostList{
+		Page:  1,
+		Size:  10,
+		Order: models.OrderTime,
+	}
 	//get请求中参数是在?后,所以用c.ShouldBindQuery()
 	//如果请求参数是json格式,用 c.ShouldBindJSON()
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -85,7 +89,7 @@ func GetPostListHandler2(c *gin.Context) {
 		return
 	}
 	//逻辑处理
-	date, err := logic.GetPostList2(p)
+	date, err := logic.GetPostListHandler2(p)
 	if err != nil {
 		zap.L().Error("logic.GetPostList2(&p) failed",
 			zap.Error(err))

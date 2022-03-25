@@ -1,8 +1,9 @@
 package models
 
 const (
-	OrderTime  = "time"
-	OrderScore = "score"
+	OrderTime          = "time"
+	OrderScore         = "score"
+	CommunityIdDefault = 100 //默认社区id
 )
 
 //请求相关参数模型
@@ -30,7 +31,8 @@ type ParamVoteDate struct {
 
 //获取帖子列表query string参数
 type ParamPostList struct {
-	Page  int64  `form:"page"`
-	Size  int64  `form:"size"`
-	Order string `form:"order"`
+	Page        int64  `json:"page" form:"page"`
+	Size        int64  `json:"size" form:"size"`
+	Order       string `json:"order" form:"order"`
+	CommunityID int64  `json:"community_id" form:"community_id"` //可以为空
 }
