@@ -5,8 +5,6 @@ go 1.16
 require (
 	github.com/BurntSushi/toml v1.0.0 // indirect
 	github.com/bwmarrin/snowflake v0.3.0
-	github.com/cosmtrek/air v1.29.0 // indirect
-	github.com/creack/pty v1.1.11 // indirect
 	github.com/dchest/captcha v0.0.0-20200903113550-03f5f0333e1f
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.5.1
@@ -22,7 +20,9 @@ require (
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.18.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/spf13/viper v1.10.1
+	github.com/stretchr/testify v1.7.0
 	go.uber.org/zap v1.21.0
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/net v0.0.0-20211015210444-4f30a5c0130f // indirect

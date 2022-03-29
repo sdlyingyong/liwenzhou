@@ -9,7 +9,10 @@ import (
 	"go.uber.org/zap"
 )
 
-//发布帖子
+// @Description 发布帖子
+// @Param title query string true "标题"
+// @Param content query string true "内容"
+// @Param community_id query int true "社区id"
 func CreatePostHandler(ctx *gin.Context) {
 	//参数处理器
 	p := new(models.Post)
@@ -21,7 +24,7 @@ func CreatePostHandler(ctx *gin.Context) {
 	//从context获取当前请求的user_id
 	userId, err := GetCurrentUser(ctx)
 	if err != nil {
-		ResponseError(ctx, CodeInvalidAuth)
+		ResponseError(ctx, CodeNeedAuth)
 		return
 	}
 	p.AuthorID = userId
