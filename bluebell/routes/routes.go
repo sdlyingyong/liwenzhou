@@ -5,6 +5,7 @@ import (
 	"lwz/bluebell/logger"
 	"lwz/bluebell/middlewares"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -24,17 +25,22 @@ func Setup(mode string) *gin.Engine {
 	apiV1.GET("/", func(context *gin.Context) {
 		context.String(http.StatusOK, "hello gin")
 	})
-	apiV1.POST("/ping", middlewares.JWTAuthMiddleware(), func(context *gin.Context) {
-		userID, err := controller.GetCurrentUser(context)
-		if err != nil {
-			controller.ResponseError(context, controller.CodeNeedAuth)
-			return
-		}
-		context.JSON(http.StatusOK, gin.H{
-			"msg":  "hello",
-			"data": gin.H{"user_id": userID},
+	//使用jwt中间件和限流中间件
+	apiV1.POST("/ping",
+		middlewares.JWTAuthMiddleware(),
+		middlewares.RateLimitMiddleware(2*time.Second, 1),
+		func(context *gin.Context) {
+			zap.L().Info("PING RUN")
+			userID, err := controller.GetCurrentUser(context)
+			if err != nil {
+				controller.ResponseError(context, controller.CodeNeedAuth)
+				return
+			}
+			context.JSON(http.StatusOK, gin.H{
+				"msg":  "hello",
+				"data": gin.H{"user_id": userID},
+			})
 		})
-	})
 	//user
 	apiV1.POST("/signup", controller.SignUpHandle)
 	apiV1.POST("/login", controller.LoginHandle)

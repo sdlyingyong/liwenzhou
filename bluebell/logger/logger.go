@@ -1,13 +1,14 @@
 package logger
 
 import (
+	"lwz/bluebell/settings"
+	"os"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"lwz/bluebell/settings"
-	"os"
-	"time"
 )
 
 var (
@@ -63,6 +64,7 @@ func GinLogger(logger *zap.Logger) gin.HandlerFunc {
 		logger.Info(
 			path,
 			zap.Int("status", c.Writer.Status()),
+			//zap.Any("header", c.Request.Header),
 			zap.String("method", c.Request.Method),
 			zap.String("path", path),
 			zap.String("query", query),
