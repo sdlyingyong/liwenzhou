@@ -14,8 +14,8 @@ ENV GO111MODULE=auto \
 WORKDIR /build
 
 #下载GO类库
-COPY go.mod .
-COPY go.sum .
+COPY ../go.mod .
+COPY ../go.sum .
 RUN go mod tidy
 
 #复制代码文件到容器中
