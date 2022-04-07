@@ -1,5 +1,5 @@
 #运行环境
-FROM golang:1.16.15-alpine3.15
+FROM golang:1.16.15-alpine3.15 AS builder
 
 #设置环境变量
 ENV GO111MODULE=auto \
@@ -16,15 +16,13 @@ COPY . .
 #编译代码为app
 RUN go build -o app
 
-#移动到存储二进制的目录
-WORKDIR /dist
+###################
+# 接下来创建一个小镜像
+###################
+FROM scratch
 
-#复制二进制文件
-RUN cp /build/app .
+#从编译镜像中拷贝出来编译好的程序
+COPY --from=builder /build/app /
 
-#声明端口
-EXPOSE 8888
-
-#运行二进制文件
-CMD ["/dist/app"]
-
+#运行程序
+ENTRYPOINT ["/app"]
