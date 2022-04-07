@@ -23,6 +23,7 @@ func Init(cfg *settings.MysqlConfig) (err error) {
 		cfg.Port,
 		cfg.Dbname,
 	)
+	zap.L().Debug("dsn", zap.Any("dsn", dsn))
 	db, err = sqlx.Connect("mysql", dsn)
 	if err != nil {
 		//panic(err)
