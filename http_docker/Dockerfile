@@ -1,18 +1,19 @@
-FROM golang:alpine AS builder
+#运行环境
+FROM golang:1.16.15-alpine3.15 AS builder
 
-# 为我们的镜像设置必要的环境变量
+#设置环境变量
 ENV GO111MODULE=auto \
     CGO_ENABLED=0 \
     GOOS=linux \
     GOARCH=amd64
 
-# 移动到工作目录：/build
+#切换到工作目录
 WORKDIR /build
 
-# 将代码复制到容器中
+#复制代码文件到容器中
 COPY . .
 
-# 将我们的代码编译成二进制可执行文件 app
+#编译代码为app
 RUN go build -o app .
 
 ###################
@@ -20,8 +21,11 @@ RUN go build -o app .
 ###################
 FROM scratch
 
-# 从builder镜像中把/dist/app 拷贝到当前目录
+#从编译镜像中拷贝出来编译好的程序
 COPY --from=builder /build/app /
 
-# 需要运行的命令
+#运行程序
 ENTRYPOINT ["/app"]
+
+#整个运行环境+二进制程序 只需要6.18M
+#原本需要300mb
