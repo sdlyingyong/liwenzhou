@@ -21,7 +21,7 @@ RUN go mod tidy
 COPY . .
 
 #编译代码为app
-RUN go build -o bluebell_app .
+RUN go build -o bubble .
 
 ###################
 # 接下来创建一个小镜像
@@ -33,10 +33,10 @@ COPY ./static       /static
 COPY ./conf         /conf
 
 #从编译镜像中拷贝出来编译好的程序
-COPY --from=builder /build/bluebell_app /
+COPY --from=builder /build/bubble /
 
 #运行程序
-ENTRYPOINT ["/bluebell_app","conf/config.ini"]
+ENTRYPOINT ["/bubble","conf/config.ini"]
 
 #整个运行环境+二进制程序 只需要6.18M
 #原本需要300mb
