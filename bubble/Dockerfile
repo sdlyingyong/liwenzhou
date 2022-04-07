@@ -6,7 +6,8 @@ FROM golang:1.16.15-alpine3.15 AS builder
 ENV GO111MODULE=auto \
     CGO_ENABLED=0 \
     GOOS=linux \
-    GOARCH=amd64
+    GOARCH=amd64    \
+    GOPROXY=https://goproxy.cn,direct
 
 #切换到工作目录
 WORKDIR /build
