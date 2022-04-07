@@ -2,6 +2,7 @@
 FROM golang:1.16.15-alpine3.15 AS builder
 
 #设置环境变量
+#cgo_enabled 控制是否把外部函数打包到生成文件中
 ENV GO111MODULE=auto \
     CGO_ENABLED=0 \
     GOOS=linux \
