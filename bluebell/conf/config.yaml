@@ -28,7 +28,10 @@ mysql:
   max_idle_conns: 100
 
 redis:
-  host: "127.0.0.1"
+  #默认的redis连接方式
+  #host: "127.0.0.1"
+  #docker中的redis
+  host: redis0500
   port: "6379"
   password: ""
   db: 0
