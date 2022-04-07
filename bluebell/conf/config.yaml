@@ -17,7 +17,10 @@ auth:
 
 mysql:
   host: "127.0.0.1"
-  port: 3306
+  #默认的mysql方式
+  #port: 3306
+  #使用docker 中的mysql
+  port: mysql0507
   user: "root"
   password: "root"
   dbname: "bluebell"
