@@ -2,7 +2,7 @@
 FROM golang:1.16.15-alpine3.15
 
 #设置环境变量
-ENV GO111MODULE=on \
+ENV GO111MODULE=auto \
     GCO_ENABLED=0 \
     GOOS=linux \
     GOARCH=amd64
