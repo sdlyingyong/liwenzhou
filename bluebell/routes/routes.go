@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/pprof"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -67,6 +69,9 @@ func Setup(mode string) *gin.Engine {
 			"msg": "404",
 		})
 	})
+
+	//注册性能分析组件
+	pprof.Register(r)
 
 	return r
 }
