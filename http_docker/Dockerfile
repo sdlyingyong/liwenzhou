@@ -26,3 +26,6 @@ COPY --from=builder /build/app /
 
 #运行程序
 ENTRYPOINT ["/app"]
+
+#整个运行环境+二进制程序 只需要6.18M
+#原本需要300mb
