@@ -14,7 +14,7 @@ WORKDIR /build
 COPY . .
 
 #编译代码为app
-RUN go build -o app
+RUN go build -o app .
 
 ###################
 # 接下来创建一个小镜像
