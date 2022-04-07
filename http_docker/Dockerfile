@@ -26,5 +26,5 @@ RUN cp /build/app .
 EXPOSE 8888
 
 #运行二进制文件
-CMD ["dist/app"]
+CMD ["/dist/app"]
 
