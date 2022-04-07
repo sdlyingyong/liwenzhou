@@ -1,13 +1,13 @@
 package main
 
 import (
-	"lwz/bluebell/controller"
-	mysql "lwz/bluebell/dao/mysql"
-	"lwz/bluebell/dao/redis"
-	"lwz/bluebell/logger"
-	"lwz/bluebell/pkg/snowflake"
-	"lwz/bluebell/routes"
-	"lwz/bluebell/settings"
+	"bluebell/controller"
+	mysql "bluebell/dao/mysql"
+	"bluebell/dao/redis"
+	"bluebell/logger"
+	"bluebell/pkg/snowflake"
+	"bluebell/routes"
+	"bluebell/settings"
 
 	"github.com/spf13/viper"
 	"go.uber.org/zap"

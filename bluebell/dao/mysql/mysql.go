@@ -1,8 +1,8 @@
 package mysql
 
 import (
+	"bluebell/settings"
 	"fmt"
-	"lwz/bluebell/settings"
 
 	_ "github.com/go-sql-driver/mysql" //用来驱动注册到全局map
 	"github.com/jmoiron/sqlx"

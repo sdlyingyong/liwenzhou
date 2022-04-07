@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"lwz/bluebell/controller"
-	"lwz/bluebell/logger"
-	"lwz/bluebell/middlewares"
+	"bluebell/controller"
+	"bluebell/logger"
+	"bluebell/middlewares"
 	"net/http"
 	"time"
 

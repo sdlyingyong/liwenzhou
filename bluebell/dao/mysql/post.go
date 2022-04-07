@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	"lwz/bluebell/models"
+	"bluebell/models"
 	"strings"
 
 	"go.uber.org/zap"

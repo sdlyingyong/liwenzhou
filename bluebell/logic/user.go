@@ -1,10 +1,10 @@
 package logic
 
 import (
-	mysql "lwz/bluebell/dao/mysql"
-	"lwz/bluebell/models"
-	"lwz/bluebell/pkg/jwt"
-	"lwz/bluebell/pkg/snowflake"
+	mysql "bluebell/dao/mysql"
+	"bluebell/models"
+	"bluebell/pkg/jwt"
+	"bluebell/pkg/snowflake"
 )
 
 //用户注册器

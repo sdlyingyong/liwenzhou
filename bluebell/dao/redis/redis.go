@@ -1,8 +1,8 @@
 package redis
 
 import (
+	"bluebell/settings"
 	"fmt"
-	"lwz/bluebell/settings"
 
 	"github.com/go-redis/redis"
 	"github.com/spf13/viper"

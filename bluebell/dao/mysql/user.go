@@ -1,10 +1,10 @@
 package mysql
 
 import (
+	"bluebell/models"
 	"crypto/md5"
 	"database/sql"
 	"encoding/hex"
-	"lwz/bluebell/models"
 )
 
 const secret = "ty"

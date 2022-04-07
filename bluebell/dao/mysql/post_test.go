@@ -1,8 +1,8 @@
 package mysql
 
 import (
-	"lwz/bluebell/models"
-	"lwz/bluebell/settings"
+	"bluebell/models"
+	"bluebell/settings"
 	"testing"
 	"time"
 )

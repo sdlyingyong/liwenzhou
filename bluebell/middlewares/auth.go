@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"lwz/bluebell/controller"
-	"lwz/bluebell/pkg/jwt"
+	"bluebell/controller"
+	"bluebell/pkg/jwt"
 	"strings"
 
 	"github.com/gin-gonic/gin"

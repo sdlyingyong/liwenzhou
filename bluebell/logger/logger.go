@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"lwz/bluebell/settings"
+	"bluebell/settings"
 	"os"
 	"time"
 

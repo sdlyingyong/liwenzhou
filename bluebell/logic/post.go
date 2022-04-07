@@ -1,10 +1,10 @@
 package logic
 
 import (
-	"lwz/bluebell/dao/mysql"
-	"lwz/bluebell/dao/redis"
-	"lwz/bluebell/models"
-	"lwz/bluebell/pkg/snowflake"
+	"bluebell/dao/mysql"
+	"bluebell/dao/redis"
+	"bluebell/models"
+	"bluebell/pkg/snowflake"
 
 	"go.uber.org/zap"
 )

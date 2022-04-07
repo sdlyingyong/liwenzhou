@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"lwz/bluebell/logic"
-	"lwz/bluebell/models"
+	"bluebell/logic"
+	"bluebell/models"
 
 	"go.uber.org/zap"
 

@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"lwz/bluebell/logic"
+	"bluebell/logic"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

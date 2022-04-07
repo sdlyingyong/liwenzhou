@@ -1,8 +1,8 @@
 package logic
 
 import (
-	"lwz/bluebell/dao/redis"
-	"lwz/bluebell/models"
+	"bluebell/dao/redis"
+	"bluebell/models"
 	"strconv"
 
 	"go.uber.org/zap"

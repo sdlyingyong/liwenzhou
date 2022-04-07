@@ -1,8 +1,8 @@
 package logic
 
 import (
-	mysql "lwz/bluebell/dao/mysql"
-	"lwz/bluebell/models"
+	mysql "bluebell/dao/mysql"
+	"bluebell/models"
 )
 
 func GetCommunityList() (data interface{}, err error) {
