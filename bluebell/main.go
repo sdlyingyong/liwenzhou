@@ -8,6 +8,7 @@ import (
 	"bluebell/pkg/snowflake"
 	"bluebell/routes"
 	"bluebell/settings"
+	"fmt"
 
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -58,6 +59,6 @@ func main() {
 	r := routes.Setup(settings.Conf.Mode)
 
 	//7.服务器
-	r.Run(":8888")
+	r.Run(fmt.Sprintf(":%v", settings.Conf.Port))
 
 }
