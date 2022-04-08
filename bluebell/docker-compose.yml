@@ -23,4 +23,4 @@ services:
       - mysql0507
       - redis0500
     ports:
-      - "8080:8080"
+      - "8888:8888"
