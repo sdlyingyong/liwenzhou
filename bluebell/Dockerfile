@@ -73,8 +73,8 @@ RUN go build -o bubble .
 FROM debian:stretch-slim
 
 COPY ./wait-for.sh /
-COPY ./templates /templates
-COPY ./static /static
+#COPY ./templates /templates
+#COPY ./static /static
 COPY ./conf /conf
 
 

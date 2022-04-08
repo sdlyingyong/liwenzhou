@@ -12,10 +12,15 @@ services:
       MYSQL_PASSWORD: "root"
     volumes:
       - ./init.sql:/data/application/init.sql
+  redis0500:
+    image: "redis:5.0.7"
+    ports:
+      - "6379:6379"
   bubble_app:
     build: .
     command: sh -c "./wait-for.sh mysql0507:3306 -- ./bubble ./conf/config.ini"
     depends_on:
       - mysql0507
+      - redis0500
     ports:
-      - "8888:8888"
+      - "8080:8080"
